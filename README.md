@@ -6,7 +6,7 @@
 ![PowerShell Gallery Downloads](https://img.shields.io/powershellgallery/dt/SecretManagement.VMware.CloudFoundation?label=PowerShell%20Gallery&color=green)
 ![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/SecretManagement.VMware.CloudFoundation?color=green)
 
-> This PowerShell module is a Microsoft.PowerShell.SecretManagement extension for VMware Cloud Foundation.
+> This PowerShell module is a Microsoft.PowerShell.SecretManagement extension for VMware Cloud Foundation available in [the PowerShell Gallery](https://www.powershellgallery.com/packages/SecretManagement.VMware.CloudFoundation).
 
 > [!TIP]
 > Read the related blog post at https://blog.graa.dev/PowerShell-SecretManagementVCF
@@ -19,7 +19,7 @@
 ## 🚀 Features 
 
 * Secret retrieval from VMware Cloud Foundation 4.x and 5.x instances
-* Cross-platform support for PowerShell Core
+* Cross-platform / Support for PowerShell Core
 
 ## 📄 Prerequisites
 
@@ -55,6 +55,8 @@ Install-Module -Name SecretManagement.VMware.CloudFoundation -AllowClobber
 
 A Vault name and Server are required to register a VMware Cloud Foundation instance. Enable certificate checking if a valid certificate is present.
 
+To access secrets in the vault after registering one needs a user that has the `ADMIN` role. This could be a local `vsphere.local` user or an identity provider-backed one.
+
 ```powershell
 $vaultName = 'lab-vcf01'
 $module = 'SecretManagement.VMware.Cloudfoundation'
@@ -69,7 +71,7 @@ Register-SecretVault -Name $vaultName -Module $module -VaultParameters $vaultPar
 
 One can also point to an encrypted file with credentials to authenticate with VMware Cloud Foundation for automation purposes.
 
-If `CredentialPath` is not passed when registering, the default path of `$env:LocalAppData\Microsoft\PowerShell\secretmanagement\Vault_<VaultName>_Credential.xml` will be tested.
+If `CredentialPath` is not passed when registering, the default path of `$env:LocalAppData\Microsoft\PowerShell\secretmanagement\Vault_<VaultName>_Credential.xml` will be tested, or `$HOME/.secretmanagement/Vault_<VaultName>_Credential.xml` on Linux/macOS.
 
 ```powershell
 $vaultParameters = @{ 
@@ -90,8 +92,8 @@ Set-SecretVaultDefault -Name 'lab-vcf01'
 When using the cmdlets exposed by the module, authentication attempts happen in this order until one succeeds or they are all exhausted:
 
 1. If `$script:SecretManagement_<VaultName>_AccessToken` exists - check if it is valid and not expired
-2. If instead `$script:SecretManagement_$VaultName_RefreshToken` exists - check if it is valid and not expired and can be used for a new access token
-3. Checking whether `%ProgramData%\Vault_<VaultName>_Credential.xml` exists and has a valid credential
+2. If instead `$script:SecretManagement_<VaultName>_RefreshToken` exists - check if it is valid and not expired and can be used for a new access token
+3. Checking whether `%ProgramData%\Vault_<VaultName>_Credential.xml` exists and has a valid credential, or `$HOME/.secretmanagement` on Linux/macOS
 4. Checking whether the file in the `CredentialPath` VaultParameter exists and has a valid credential
 5. Interactively asking for a username and password
 
@@ -99,9 +101,11 @@ When using the cmdlets exposed by the module, authentication attempts happen in 
 
 The current alternative for using the module for non-interactive automation purposes is to save a credential to access SDDC Manager to disk.
 
-On Windows the contents of this file can only be unlocked by the user creating the file on that machine.
+> [!NOTE]  
+> On Windows the contents of this file can only be unlocked by the user creating the file on that machine. 
 
-Saving credentials with `Export-CliXml` on Linux or macOS does not encrypt the contents.
+> [!IMPORTANT]  
+> Saving credentials with `Export-CliXml` on Linux or macOS does not encrypt the contents.
 
 This is done like so for each VMware Cloud Foundation instance, in the example below for the `lab-vcf01` vault:
 
@@ -128,6 +132,10 @@ Retrieve information about every secret:
 ```powershell
 Get-SecretInfo -Vault 'lab-vcf01'
 ```
+
+Retrieve metadata:
+
+![Get-Secret](/images/Get-SecretInfo-Metadata.png){: width="600" }
 
 Filter by VMware Cloud Foundation workload name:
 
@@ -165,5 +173,5 @@ Please do so by forking the project and opening a pull request!
 
 ## ✨ Credits
 
-> [!NOTE]  
-> This module is not supported by VMware in any way. The module logo is a blending of a [free stock padlock icon](https://www.iconpacks.net/free-icon/yellow-padlock-11726.html), the PowerShell icon and the VMware vCF logo.
+> [!NOTE]
+> This module is not supported by VMware in any way. The module logo is a blending of the VMware vCF logo, the PowerShell logo and a [free stock padlock icon](https://www.iconpacks.net/free-icon/yellow-padlock-11726.html).

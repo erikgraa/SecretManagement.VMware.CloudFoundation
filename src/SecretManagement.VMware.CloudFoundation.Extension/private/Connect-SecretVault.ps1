@@ -6,13 +6,13 @@ function Connect-SecretVault {
         [string] $Server
     )
 
-    if ($AdditionalParameters -and (Test-Path -Path $AdditionalParameters.CredentialPath -PathType Leaf -ErrorAction SilentlyContinue)) {
+    if (Test-Path -Path $AdditionalParameters.CredentialPath -PathType Leaf -ErrorAction SilentlyContinue) {
         Write-Debug ("Setting encrypted credential file path to '{0}' from vault parameter" -f $AdditionalParameters.CredentialPath)
         $script:thisVaultCredentialPath = $AdditionalParameters.CredentialPath
     }
     else {
         $script:thisVaultCredentialPath = ('{0}\Vault_{1}_Credential.xml' -f $script:defaultVaultCredentialPath, $VaultName)
-        Write-Debug ("Setting encrypted credential file path to the default - {0}" -f $script:thisVaultCredentialPath)        
+        Write-Debug ("Setting encrypted credential file path to the default for this vault- {0}" -f $script:thisVaultCredentialPath)        
     }
 
     $authenticated = $false
