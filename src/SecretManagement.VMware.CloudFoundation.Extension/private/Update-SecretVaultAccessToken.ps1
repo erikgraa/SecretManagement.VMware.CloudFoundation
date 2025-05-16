@@ -29,6 +29,6 @@ function Update-SecretVaultAccessToken {
 
         $script:headers = $script:defaultHeaders.Clone()
 
-        $script:headers.Add('Authorization', ('Bearer {0}' -f (Get-Variable -Name ('SecretManagement_{0}_AccessToken' -f $VaultName) -Scope Global).Value))
+        $script:headers.Add('Authorization', $request)
     }
 }

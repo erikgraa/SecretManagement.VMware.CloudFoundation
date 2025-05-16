@@ -135,7 +135,7 @@ Get-SecretInfo -Vault 'lab-vcf01'
 
 Retrieve metadata:
 
-![Get-Secret](/images/Get-SecretInfo-Metadata.png){: width="600" }
+![Get-Secret](/images/Get-SecretInfo-Metadata.png)
 
 Filter by VMware Cloud Foundation workload name:
 

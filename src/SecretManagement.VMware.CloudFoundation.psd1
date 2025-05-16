@@ -7,7 +7,7 @@
 #
 
 @{
-    ModuleVersion = '0.2505.5'
+    ModuleVersion = '0.2505.6'
     CompatiblePSEditions = @('Core')
     GUID = '7c61c156-3408-41a0-a91d-fd1913398680'
     Author = 'erikgraa'
@@ -27,7 +27,7 @@
             )
 
             ProjectUri     = 'https://github.com/erikgraa/SecretManagement.VMware.CloudFoundation'
-            License        = 'https://github.com/erikgraa/SecretManagement.VMware.CloudFoundation/blob/main/LICENSE'
+            LicenseUri     = 'https://github.com/erikgraa/SecretManagement.VMware.CloudFoundation/blob/main/LICENSE'
             IconUri        = 'https://raw.githubusercontent.com/erikgraa/SecretManagement.VMware.CloudFoundation/refs/heads/main/images/logo.png'
             ReleaseNotes   = 'https://github.com/erikgraa/SecretManagement.VMware.CloudFoundation'
         }

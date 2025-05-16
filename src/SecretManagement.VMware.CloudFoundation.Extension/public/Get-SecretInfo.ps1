@@ -44,10 +44,10 @@ function Get-SecretInfo {
             }
 
             return @(,[Microsoft.PowerShell.SecretManagement.SecretInformation]::new(
-                ('{0}/{1}' -f $PSItem.resource.resourceName, $PSItem.userName),        # Name of secret
-                "String",      # Secret data type [Microsoft.PowerShell.SecretManagement.SecretType]
-                $VaultName,    # Name of vault
-                $metadata))    # Optional Metadata parameter
+                ('{0}/{1}' -f $PSItem.resource.resourceName, $PSItem.userName),
+                [Microsoft.PowerShell.SecretManagement.SecretType]::PSCredential,
+                $VaultName,
+                $metadata))
         } 
         else {
             $metadata = [Ordered]@{
